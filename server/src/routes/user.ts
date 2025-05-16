@@ -9,3 +9,4 @@ router.post("/signup", Signup);
 router.post("/logout", Logout);
 router.get("/me", Authenticate, getMe);
 
+export default router;
