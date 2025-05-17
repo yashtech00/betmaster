@@ -1,21 +1,26 @@
-import  mongoose, { connect } from "mongoose"
 
+import mongoose from "mongoose";
 
-
-const ConnectDb = () => {
-    const MONGO_URL = process.env.MONGO_URl;
+ const connectDB = () => {
+     const mongoUrl = process.env.MONGO_URL;
+     console.log(mongoUrl);
+     
+    if (!mongoUrl) {
+        throw new Error("MONGO_URL is not defined in the environment variables.");
+    }
     try {
-        mongoose.connect(MONGO_URL || "")
+        mongoose.connect(mongoUrl)
             .then(() => {
-                console.log("mongodb connected successfully");
+                console.log("Connected to MongoDB successfully.");
             })
-            .catch(() => {
-                console.log("mongodb disconnected");
-            })
+            .catch((e) => {
+                console.error("Error connecting to MongoDB:", e);
+                throw e;
+            });
     } catch (e) {
         console.error("Error connecting to MongoDB:", e);
         throw e;
     }
 }
 
-export default ConnectDb;
+export default connectDB

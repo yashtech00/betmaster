@@ -1,8 +1,0 @@
-{
-  "dependencies": {
-    "mongodb": "^6.16.0"
-  },
-  "devDependencies": {
-    "@types/cors": "^2.8.18"
-  }
-}

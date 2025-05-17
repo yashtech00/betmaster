@@ -1,6 +1,6 @@
 import express from "express"
 import { Authenticate } from "../middleware/Authenticate";
-import { CreateEvents, getEvent, GetOdds, ListEvent, ResolveOutcome } from "../controller/event";
+import { CreateEvents, getEvent, GetOdds, ListEvent, ResolveOutcome } from "../controller/Admin/event";
 
 const router = express.Router();
 
