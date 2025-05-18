@@ -5,7 +5,7 @@ import connectDb from "./db/db";
 import cors from "cors"
 import cookieParser from "cookie-parser";
 import UserRoutes from "./routes/user"
-import EventRoutes from "./routes/events"
+import AdminRoutes from "./routes/events"
 
 
 
@@ -22,7 +22,7 @@ app.use(cookieParser());
 app.use(express.json());
 
 app.use("/user", UserRoutes);
-app.use("/events",EventRoutes)
+app.use("/event",AdminRoutes)
 
 app.listen(PORT,() => {
     console.log(`server is connected to ${PORT}`);

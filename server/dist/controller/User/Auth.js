@@ -12,14 +12,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.GetMe = exports.Logout = exports.Login = exports.Signup = void 0;
-const generateToken_1 = require("../lib/generateToken");
-const User_1 = __importDefault(require("../models/User"));
+exports.getMe = exports.Logout = exports.Login = exports.Signup = void 0;
+const generateToken_1 = require("../../lib/generateToken");
+const User_1 = __importDefault(require("../../models/User"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const Signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { username, fullname, email, password } = req.body;
-        const exist = yield User_1.default.findOne({ email });
+        const exist = yield User_1.default.findById(email);
         if (exist) {
             return res.status(500).json("User already exist, go for login");
         }
@@ -47,11 +47,12 @@ const Login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             return res.status(404).json("User not found, go for signup");
         }
         const isPassword = yield bcryptjs_1.default.compare(password, User.password);
-        if (!isPassword) {
-            return res.status(404).json("Invalid password");
-        }
-        (0, generateToken_1.generateToken)(User._id, res);
-        return res.status(200).json("User Login successfully", User);
+        const user = yield User_1.default.create({
+            email,
+            password
+        });
+        (0, generateToken_1.generateToken)(user._id, res);
+        return res.status(200).json("User Login successfully", user);
     }
     catch (e) {
         console.error(e.message);
@@ -64,14 +65,14 @@ const Logout = (req, res) => {
     res.json("Logged out");
 };
 exports.Logout = Logout;
-const GetMe = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getMe = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const user = yield User_1.default.findById(req.user._id).select("-password");
-        return res.status(200).json({ message: "me got this", data: user });
+        return res.status(200).json("fetch user details", user);
     }
     catch (e) {
         console.error(e.message);
-        return res.status(500).json({ message: "Internal server error while fetch user details" });
+        return res.status(500).json("Error while fetching user details");
     }
 });
-exports.GetMe = GetMe;
+exports.getMe = getMe;

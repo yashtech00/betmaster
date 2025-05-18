@@ -24,6 +24,11 @@ const UserSchema = new Schema({
     balance: {
         type: Number,
         default: 1000
+    },
+    role: {
+        type: String,
+        enum: ['user', 'admin'],
+        default: 'user'
     }
 }, { timestamps: true });
 const UserModel = mongoose_1.default.model("User", UserSchema);

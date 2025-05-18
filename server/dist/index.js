@@ -21,7 +21,7 @@ app.use((0, cors_1.default)({
 app.use((0, cookie_parser_1.default)());
 app.use(express_1.default.json());
 app.use("/user", user_1.default);
-app.use("/events", events_1.default);
+app.use("/event", events_1.default);
 app.listen(PORT, () => {
     console.log(`server is connected to ${PORT}`);
 });

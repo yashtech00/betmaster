@@ -1,6 +1,6 @@
-import EventModel from "../../models/Events";
-import TradeModel from "../../models/trade";
-import WalletModel from "../../models/wallets";
+import EventModel from "../models/Events";
+import TradeModel from "../models/trade";
+import WalletModel from "../models/wallets";
 
 
 export const CreateEvents = async (req: any, res: any) => {
