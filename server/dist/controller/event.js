@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.GetOdds = exports.ResolveOutcome = exports.ListEvent = exports.getEvent = exports.CreateEvents = void 0;
+exports.PlaceTrade = exports.GetOdds = exports.ResolveOutcome = exports.ListEvent = exports.getEvent = exports.CreateEvents = void 0;
 const Events_1 = __importDefault(require("../models/Events"));
 const trade_1 = __importDefault(require("../models/trade"));
 const wallets_1 = __importDefault(require("../models/wallets"));
@@ -36,11 +36,12 @@ exports.CreateEvents = CreateEvents;
 const getEvent = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
-        const event = yield Events_1.default.findById(id);
+        const event = yield Events_1.default.findOne({ id });
         if (!event) {
             return res.status(404).json("Event not found");
         }
-        return res.status(200).json("fetched event", event);
+        console.log(event, "event ");
+        return res.status(200).json({ message: "fetched event" }, { data: event });
     }
     catch (e) {
         console.error(e.message);
@@ -127,3 +128,46 @@ const GetOdds = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.GetOdds = GetOdds;
+const PlaceTrade = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id: eventId } = req.params;
+        console.log(eventId, "event id");
+        const { outcome, amount } = req.body;
+        const { userId } = req.user._id;
+        const event = yield Events_1.default.findOne({ eventId });
+        if (!event) {
+            return res.status(404).json("event not found");
+        }
+        if (event.status != "open") {
+            return res.status(500).json("Event is not open for trading");
+        }
+        const wallet = yield wallets_1.default.findOne({ userId });
+        if (!wallet || wallet.balance < amount) {
+            return res.status(500).json("Insufficient balance");
+        }
+        if (outcome == "yes") {
+            event.yesPool += amount;
+        }
+        else if (outcome == "no") {
+            event.noPool += amount;
+        }
+        else {
+            return res.status(400).json("Invalid outcome. Use yes or no");
+        }
+        yield event.save();
+        const Trade = yield trade_1.default.create({
+            userId,
+            eventId,
+            outcome,
+            amount
+        });
+        wallet.balance = wallet.balance - amount;
+        yield wallet.save();
+        return res.status(200).json({ message: "trade successfully" }, { data: Trade });
+    }
+    catch (e) {
+        console.error(e.message);
+        return res.status(500).json("Internal server error while trading");
+    }
+});
+exports.PlaceTrade = PlaceTrade;

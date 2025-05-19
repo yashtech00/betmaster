@@ -18,7 +18,8 @@ const User_1 = __importDefault(require("../models/User"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const Signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { username, fullname, email, password } = req.body;
+        const { username, fullname, email, password, role } = req.body;
+        console.log("Received role:", role); // 👈 Debug line
         const exist = yield User_1.default.findOne({ email });
         if (exist) {
             return res.status(500).json("User already exist, go for login");
@@ -28,9 +29,11 @@ const Signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             fullname,
             username,
             email,
+            role,
             password: hashPassword
         });
         (0, generateToken_1.generateToken)(user._id, res);
+        console.log(user, "signup user");
         return res.status(200).json("User register successfully", user);
     }
     catch (e) {

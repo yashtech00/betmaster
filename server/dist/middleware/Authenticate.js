@@ -26,12 +26,10 @@ const Authenticate = (req, res, next) => __awaiter(void 0, void 0, void 0, funct
         if (!decode || typeof decode === "string") {
             return res.status(401).json("Token is not valid");
         }
-        console.log("decode", decode);
         const user = yield User_1.default.findById(decode.userId).select("-password");
         if (!user) {
             return res.status(404).json("user not found");
         }
-        console.log("user", user);
         req.user = user;
         next();
     }

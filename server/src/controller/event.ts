@@ -25,11 +25,13 @@ export const CreateEvents = async (req: any, res: any) => {
 export const getEvent = async (req: any, res: any) => {
     try {
         const { id } = req.params
-        const event = await EventModel.findById(id)
+        const event = await EventModel.findOne({id})
         if (!event) { 
             return res.status(404).json("Event not found");
-        }
-        return res.status(200).json("fetched event", event);
+      }
+      console.log(event,"event ");
+      
+      return res.status(200).json({ message: "fetched event" }, { data: event });
     } catch (e:any) {
         console.error(e.message);
         return res.status(500).json("Internal server error while fetching events")
@@ -126,4 +128,51 @@ export const GetOdds = async (req: any, res: any) => {
         console.error(e.message);
         return res.status(500).json("internal server error, while getting odds");
     }
+}
+
+export const PlaceTrade = async (req: any, res: any) => {
+  try {
+    const { id: eventId } = req.params;
+    console.log(eventId, "event id");
+    
+    const { outcome, amount } = req.body;
+    const {userId} = req.user._id;
+    const event = await EventModel.findOne({ eventId });
+    if (!event) {
+      return res.status(404).json("event not found");
+    }
+
+    if (event.status != "open") {
+      return res.status(500).json("Event is not open for trading");
+    }
+
+    const wallet = await WalletModel.findOne({ userId });
+    if (!wallet || wallet.balance < amount) {
+      return res.status(500).json("Insufficient balance");
+    }
+
+    if (outcome == "yes") {
+      event.yesPool += amount;
+    } else if(outcome=="no") {
+      event.noPool += amount;
+    } else {
+      return res.status(400).json("Invalid outcome. Use yes or no");
+    }
+    await event.save();
+    const Trade = await TradeModel.create({
+      userId,
+      eventId,
+      outcome,
+      amount
+    });
+
+    wallet.balance = wallet.balance - amount;
+    await wallet.save();
+
+    return res.status(200).json({message:  "trade successfully"},{data:Trade} )
+
+  } catch (e:any) {
+    console.error(e.message);
+    return res.status(500).json("Internal server error while trading");
+  }
 }
