@@ -19,7 +19,9 @@ const EventSchema = new Schema({
         type: Date,
         required: true
     },
-
+    image: {
+        type: String,
+    },
     yesPool: {
         type: Number,
         default: 0
@@ -28,13 +30,11 @@ const EventSchema = new Schema({
         type: Number,
         default: 0
     },
-
     status: {
         type: String,
         enum: ['open', 'closed', 'resolved'],
         default: 'open'
     },
-
     result: {
         type: String,
         enum: ['yes', 'no', 'null'],

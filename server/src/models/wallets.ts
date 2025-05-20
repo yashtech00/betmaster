@@ -10,7 +10,7 @@ const WalletSchema = new Schema({
     },
     balance: {
         type: Number,
-        default: 1000
+        default: 500
     }
 });
 
