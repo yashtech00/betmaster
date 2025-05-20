@@ -13,7 +13,7 @@ const WalletSchema = new Schema({
     },
     balance: {
         type: Number,
-        default: 1000
+        default: 500
     }
 });
 const WalletModel = mongoose_1.default.model("Wallet", WalletSchema);

@@ -22,6 +22,9 @@ const EventSchema = new Schema({
         type: Date,
         required: true
     },
+    image: {
+        type: String,
+    },
     yesPool: {
         type: Number,
         default: 0
