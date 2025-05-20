@@ -6,13 +6,13 @@ const Schema = mongoose.Schema;
 const TradeSchema = new Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "user",
-        required:true
+        ref: "User",
+        
     },
     eventId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "event",
-        required:true
+        ref: "Event",
+        
     },
     outcome: {
         type: String,

@@ -16,6 +16,7 @@ exports.GetMe = exports.Logout = exports.Login = exports.Signup = void 0;
 const generateToken_1 = require("../lib/generateToken");
 const User_1 = __importDefault(require("../models/User"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
+const wallets_1 = __importDefault(require("../models/wallets"));
 const Signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { username, fullname, email, password, role } = req.body;
@@ -34,6 +35,10 @@ const Signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
         (0, generateToken_1.generateToken)(user._id, res);
         console.log(user, "signup user");
+        yield wallets_1.default.create({
+            userId: user._id,
+            balance: 1000, // or your desired default
+        });
         return res.status(200).json("User register successfully", user);
     }
     catch (e) {

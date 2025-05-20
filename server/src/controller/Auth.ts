@@ -1,6 +1,7 @@
 import { generateToken } from "../lib/generateToken";
 import UserModel from "../models/User"
 import bcrypt from "bcryptjs"
+import WalletModel from "../models/wallets";
 
 export const Signup = async(req:any,res:any) => {
     try {
@@ -23,6 +24,10 @@ export const Signup = async(req:any,res:any) => {
 
         console.log(user,"signup user");
         
+         await WalletModel.create({
+      userId: user._id,
+      balance: 1000, // or your desired default
+    });
 
         return res.status(200).json("User register successfully",user)
 

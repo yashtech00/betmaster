@@ -19,11 +19,12 @@ const trade_1 = __importDefault(require("../models/trade"));
 const wallets_1 = __importDefault(require("../models/wallets"));
 const CreateEvents = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { title, description, category, deadline, imageUrl } = req.body;
-        let imageUrlToUse = imageUrl;
-        if (imageUrl) {
+        const { title, description, category, deadline, image } = req.body;
+        console.log(image, "image");
+        let imageUrlToUse = image;
+        if (image) {
             try {
-                const uploadRes = yield Cloudinary_1.default.uploader.upload(imageUrl, {
+                const uploadRes = yield Cloudinary_1.default.uploader.upload(image, {
                     folder: "courses", // Optional: organize uploads into folders
                 });
                 imageUrlToUse = uploadRes.secure_url;
@@ -38,8 +39,9 @@ const CreateEvents = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             description,
             category,
             deadline,
-            image: imageUrl,
+            image: imageUrlToUse,
         });
+        console.log(event, "create");
         return res
             .status(200)
             .json({ message: "Event created successfully", data: event });

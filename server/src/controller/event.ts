@@ -5,12 +5,14 @@ import WalletModel from "../models/wallets";
 
 export const CreateEvents = async (req: any, res: any) => {
   try {
-    const { title, description, category, deadline, imageUrl } = req.body;
+    const { title, description, category, deadline, image } = req.body;
+    console.log(image,"image");
+    
 
-    let imageUrlToUse = imageUrl;
-    if (imageUrl) {
+    let imageUrlToUse = image;
+    if (image) {
       try {
-        const uploadRes = await cloudinary.uploader.upload(imageUrl, {
+        const uploadRes = await cloudinary.uploader.upload(image, {
           folder: "courses", // Optional: organize uploads into folders
         });
         imageUrlToUse = uploadRes.secure_url;
@@ -25,8 +27,11 @@ export const CreateEvents = async (req: any, res: any) => {
       description,
       category,
       deadline,
-      image: imageUrl,
+      image: imageUrlToUse,
     });
+
+    console.log(event,"create");
+    
 
     return res
       .status(200)
