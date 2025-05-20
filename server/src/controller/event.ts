@@ -31,7 +31,7 @@ export const getEvent = async (req: any, res: any) => {
       }
       console.log(event,"event ");
       
-      return res.status(200).json({ message: "fetched event" }, { data: event });
+      return res.status(200).json({ message: "fetched event", data: event });
     } catch (e:any) {
         console.error(e.message);
         return res.status(500).json("Internal server error while fetching events")
@@ -41,7 +41,8 @@ export const getEvent = async (req: any, res: any) => {
 export const ListEvent = async (req: any, res: any) => {
     try {
         const event = await EventModel.find();
-        return res.status(200).json("fetched all events", event);
+      return res.status(200).json({ message: "fetched all events", data: event });
+
     } catch (e:any) {
         console.error(e.message);
         return res.status(500).json("Internal server error while fetching all events");
@@ -136,8 +137,8 @@ export const PlaceTrade = async (req: any, res: any) => {
     console.log(eventId, "event id");
     
     const { outcome, amount } = req.body;
-    const {userId} = req.user._id;
-    const event = await EventModel.findOne({ eventId });
+    const userId = req.user._id;
+    const event = await EventModel.findById( eventId );
     if (!event) {
       return res.status(404).json("event not found");
     }
@@ -146,7 +147,15 @@ export const PlaceTrade = async (req: any, res: any) => {
       return res.status(500).json("Event is not open for trading");
     }
 
+    console.log("userId", userId); // From req.user._id
+console.log("eventId", eventId); // From req.params
+console.log("outcome", outcome);
+console.log("amount", amount, typeof amount);
+
+    
     const wallet = await WalletModel.findOne({ userId });
+    console.log("wallet-",wallet);
+    
     if (!wallet || wallet.balance < amount) {
       return res.status(500).json("Insufficient balance");
     }

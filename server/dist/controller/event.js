@@ -41,7 +41,7 @@ const getEvent = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             return res.status(404).json("Event not found");
         }
         console.log(event, "event ");
-        return res.status(200).json({ message: "fetched event" }, { data: event });
+        return res.status(200).json({ message: "fetched event", data: event });
     }
     catch (e) {
         console.error(e.message);
@@ -52,7 +52,7 @@ exports.getEvent = getEvent;
 const ListEvent = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const event = yield Events_1.default.find();
-        return res.status(200).json("fetched all events", event);
+        return res.status(200).json({ message: "fetched all events", data: event });
     }
     catch (e) {
         console.error(e.message);
@@ -133,15 +133,20 @@ const PlaceTrade = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         const { id: eventId } = req.params;
         console.log(eventId, "event id");
         const { outcome, amount } = req.body;
-        const { userId } = req.user._id;
-        const event = yield Events_1.default.findOne({ eventId });
+        const userId = req.user._id;
+        const event = yield Events_1.default.findById(eventId);
         if (!event) {
             return res.status(404).json("event not found");
         }
         if (event.status != "open") {
             return res.status(500).json("Event is not open for trading");
         }
+        console.log("userId", userId); // From req.user._id
+        console.log("eventId", eventId); // From req.params
+        console.log("outcome", outcome);
+        console.log("amount", amount, typeof amount);
         const wallet = yield wallets_1.default.findOne({ userId });
+        console.log("wallet-", wallet);
         if (!wallet || wallet.balance < amount) {
             return res.status(500).json("Insufficient balance");
         }

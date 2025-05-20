@@ -21,10 +21,6 @@ const UserSchema = new Schema({
         type: String,
         required: true,
     },
-    balance: {
-        type: Number,
-        default: 1000
-    },
     role: {
         type: String,
         enum: ['user', 'admin'],

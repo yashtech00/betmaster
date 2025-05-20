@@ -8,13 +8,12 @@ const Schema = mongoose_1.default.Schema;
 const WalletSchema = new Schema({
     userId: {
         type: mongoose_1.default.Schema.Types.ObjectId,
-        ref: "user",
+        ref: "User",
         required: true,
-        unique: true
     },
     balance: {
         type: Number,
-        default: 0
+        default: 1000
     }
 });
 const WalletModel = mongoose_1.default.model("Wallet", WalletSchema);
