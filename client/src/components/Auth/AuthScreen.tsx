@@ -23,7 +23,7 @@ function Auth() {
     email: "",
     password: "",
   });
-
+  const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate();
 
   const BACKEND_URL = import.meta.env.VITE_BACKEND_URL; // make sure to prefix with VITE_
@@ -31,10 +31,21 @@ function Auth() {
   const { mutate: signupMutation } = useMutation<UserProp, unknown, UserProp>({
     mutationKey: ["signup"],
     mutationFn: async (formData) => {
-      const res = await axios.post(`${BACKEND_URL}/user/signup`, formData, {
+      try {
+        console.log("before signup");
+        
+         const res = await axios.post(`${BACKEND_URL}/user/signup`, formData, {
         withCredentials: true,
       });
+      console.log(res," after signup");
+      
       return res.data;
+      } catch (e:any) {
+        console.error(e.message); 
+        console.log("error in signup");
+        
+        
+      }
     },
      onSuccess: () => {
       navigate("/events")
@@ -44,10 +55,15 @@ function Auth() {
   const { mutate: loginMutation } = useMutation<UserProp, unknown, UserProp>({
     mutationKey: ["login"],
     mutationFn: async (formData) => {
-      const res = await axios.post(`${BACKEND_URL}/user/login`, formData, {
+      try {
+        const res = await axios.post(`${BACKEND_URL}/user/login`, formData, {
         withCredentials: true,
       });
       return res.data;
+      } catch (e:any) {
+        console.error(e.message);
+      }
+      
     },
     onSuccess: () => {
       navigate("/events")
@@ -62,13 +78,17 @@ function Auth() {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
     if (mode === "signup") {
-      signupMutation(formData);
+      setIsLoading(true)
+      await signupMutation(formData);
+      setIsLoading(false)
     } else {
+      setIsLoading(true)
       const { email, password } = formData;
-      loginMutation({ email, password } as UserProp);
+      await loginMutation({ email, password } as UserProp);
+      setIsLoading(false)
     }
   };
 

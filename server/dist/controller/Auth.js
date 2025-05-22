@@ -19,7 +19,7 @@ const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const wallets_1 = __importDefault(require("../models/wallets"));
 const Signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { username, fullname, email, password, role } = req.body;
+        const { fullname, email, password, role } = req.body;
         console.log("Received role:", role); // 👈 Debug line
         const exist = yield User_1.default.findOne({ email });
         if (exist) {
@@ -28,7 +28,6 @@ const Signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const hashPassword = yield bcryptjs_1.default.hash(password, 10);
         const user = yield User_1.default.create({
             fullname,
-            username,
             email,
             role,
             password: hashPassword

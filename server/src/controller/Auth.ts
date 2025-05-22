@@ -5,7 +5,7 @@ import WalletModel from "../models/wallets";
 
 export const Signup = async(req:any,res:any) => {
     try {
-        const { username, fullname, email, password, role } = req.body
+        const {  fullname, email, password, role } = req.body
         console.log("Received role:", role); // 👈 Debug line
         const exist = await UserModel.findOne({email});
         if (exist) {
@@ -15,7 +15,6 @@ export const Signup = async(req:any,res:any) => {
 
         const user = await UserModel.create({
             fullname,
-            username,
             email,
             role,
             password:hashPassword
