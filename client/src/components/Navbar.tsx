@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "./ui/button";
 import { Menu, X } from "lucide-react";
+import { Auth } from "./Auth/AuthScreen";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -56,10 +57,12 @@ const Navbar = () => {
           </div>
 
           <div className="hidden md:flex items-center space-x-3">
-            <Button variant="outline" size="sm">
-              Log in
-            </Button>
-            <Button size="sm">Get Started</Button>
+                     
+                         
+                              <Auth/>
+                              
+            
+           
           </div>
 
           {/* Mobile menu button */}
