@@ -2,9 +2,8 @@ import { useQuery } from "@tanstack/react-query"
 import axios from "axios"
 
 
-interface UserProp{
+export interface UserProp{
     fullname: string,
-    username: string,
     email: string,
     password:string
 }

@@ -10,10 +10,76 @@ import {
 } from "../ui/dialog";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
+import { useMutation } from "@tanstack/react-query";
+import type { UserProp } from "../../hooks/useAuth";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Auth() {
   const id = useId();
   const [mode, setMode] = useState<"signup" | "signin">("signup");
+  const [formData, setFormData] = useState<UserProp>({
+    fullname: "",
+    email: "",
+    password: "",
+  });
+
+  const navigate = useNavigate();
+
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL; // make sure to prefix with VITE_
+
+  const { mutate: signupMutation } = useMutation<UserProp, unknown, UserProp>({
+    mutationKey: ["signup"],
+    mutationFn: async (formData) => {
+      const res = await axios.post(`${BACKEND_URL}/user/signup`, formData, {
+        withCredentials: true,
+      });
+      return res.data;
+    },
+     onSuccess: () => {
+      navigate("/events")
+    }
+  });
+
+  const { mutate: loginMutation } = useMutation<UserProp, unknown, UserProp>({
+    mutationKey: ["login"],
+    mutationFn: async (formData) => {
+      const res = await axios.post(`${BACKEND_URL}/user/login`, formData, {
+        withCredentials: true,
+      });
+      return res.data;
+    },
+    onSuccess: () => {
+      navigate("/events")
+    }
+  });
+
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (mode === "signup") {
+      signupMutation(formData);
+    } else {
+      const { email, password } = formData;
+      loginMutation({ email, password } as UserProp);
+    }
+  };
+
+  const switchMode = (newMode: "signup" | "signin") => {
+    setMode(newMode);
+    setFormData({
+      fullname: "",
+      email: "",
+      password: "",
+    });
+  };
 
   return (
     <Dialog>
@@ -36,7 +102,7 @@ function Auth() {
           </DialogHeader>
         </div>
 
-        <form className="space-y-5">
+        <form className="space-y-5" onSubmit={handleSubmit}>
           <div className="space-y-4">
             {mode === "signup" && (
               <div className="space-y-2">
@@ -45,6 +111,9 @@ function Auth() {
                   id={`${id}-name`}
                   placeholder="Matt Welsh"
                   type="text"
+                  name="fullname"
+                  value={formData.fullname}
+                  onChange={handleInput}
                   required
                 />
               </div>
@@ -55,6 +124,9 @@ function Auth() {
                 id={`${id}-email`}
                 placeholder="hi@yourcompany.com"
                 type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleInput}
                 required
               />
             </div>
@@ -64,6 +136,9 @@ function Auth() {
                 id={`${id}-password`}
                 placeholder="Enter your password"
                 type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleInput}
                 required
               />
             </div>
@@ -79,7 +154,7 @@ function Auth() {
               Already have an account?{" "}
               <button
                 className="text-blue-600 underline"
-                onClick={() => setMode("signin")}
+                onClick={() => switchMode("signin")}
                 type="button"
               >
                 Sign in
@@ -90,7 +165,7 @@ function Auth() {
               Don’t have an account?{" "}
               <button
                 className="text-blue-600 underline"
-                onClick={() => setMode("signup")}
+                onClick={() => switchMode("signup")}
                 type="button"
               >
                 Sign up

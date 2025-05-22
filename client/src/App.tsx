@@ -6,7 +6,9 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
+        
         <Route path='/' element={<Index/>} />
+        <Route path='/events' element={<Index/>} />
     </Routes>
     </BrowserRouter>
   )
