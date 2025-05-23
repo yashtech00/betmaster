@@ -60,7 +60,11 @@ export const getEvent = async (req: any, res: any) => {
 
 export const ListEvent = async (req: any, res: any) => {
   try {
+    console.log("before list events");
+    
     const event = await EventModel.find();
+    console.log(event,"after list event");
+    
     return res.status(200).json({ message: "fetched all events", data: event });
   } catch (e: any) {
     console.error(e.message);

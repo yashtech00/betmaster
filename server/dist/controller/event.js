@@ -70,7 +70,9 @@ const getEvent = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.getEvent = getEvent;
 const ListEvent = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        console.log("before list events");
         const event = yield Events_1.default.find();
+        console.log(event, "after list event");
         return res.status(200).json({ message: "fetched all events", data: event });
     }
     catch (e) {
