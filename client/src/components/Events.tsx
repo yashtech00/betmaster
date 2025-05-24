@@ -9,6 +9,7 @@ export interface EventProp {
   description: string;
   category: string;
   deadline: Date;
+  image: string;
 }
 
 export const Events = () => {
@@ -25,10 +26,10 @@ export const Events = () => {
   return (
     <>
       <EventNavbar />
-      <div className="mt-28 w-[90%] md:w-[70%] mx-auto px-4 relative z-10">
+      <div className="mt-28  md:w-[90%] mx-auto px-4 relative z-10">
         <h2 className="text-4xl font-bold text-center text-gradient mb-4">All Events</h2>
-        <div className="absolute -z-10 top-1/3 right-1/3 w-64 h-64 bg-primary/10 rounded-full blur-3xl"></div>
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mt-8">
+       
+        <div className="flex gap-10 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-8">
           {Events?.map((event, idx) => (
             <motion.div
               key={idx}
