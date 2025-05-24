@@ -55,7 +55,9 @@ exports.CreateEvents = CreateEvents;
 const getEvent = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
-        const event = yield Events_1.default.findOne({ id });
+        console.log(id, "get event by id");
+        const event = yield Events_1.default.findById(id);
+        console.log(event, "event found");
         if (!event) {
             return res.status(404).json("Event not found");
         }

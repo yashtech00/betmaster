@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Index from './pages'
 import Event from './pages/Events'
+import { EventDetail } from './components/EventDetail'
 
 const App = () => {
 
@@ -8,7 +9,8 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<Index/>} />
-        <Route path='/events' element={<Event/>} />
+        <Route path='/events' element={<Event />} />
+        <Route path='/events/:id' element={<EventDetail/>} />
     </Routes>
     </BrowserRouter>
   )

@@ -9,7 +9,8 @@ export interface EventProp {
   description: string;
   category: string;
   deadline: Date;
-  image: string;
+    image: string;
+    _id:string
 }
 
 export const Events = () => {

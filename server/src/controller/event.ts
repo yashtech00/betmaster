@@ -45,7 +45,11 @@ export const CreateEvents = async (req: any, res: any) => {
 export const getEvent = async (req: any, res: any) => {
   try {
     const { id } = req.params;
-    const event = await EventModel.findOne({ id });
+    console.log(id,"get event by id");
+    
+    const event = await EventModel.findById( id );
+    console.log(event,"event found");
+    
     if (!event) {
       return res.status(404).json("Event not found");
     }

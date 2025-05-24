@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import type { EventProp } from "./Events";
 import { Button } from "./ui/button";
 
@@ -8,6 +9,8 @@ export const EventComp = ({ event }: { event: EventProp }) => {
     return text.split(/\s+/).slice(0, 10).join(" ") + (text.split(/\s+/).length > 10 ? "..." : "");
 }
     return (
+        <>
+            <Link to={`/events/${event._id}`}>
         <div className="rounded-2xl p-6 bg-white/5 border border-white/10 backdrop-blur-lg text-white shadow-lg transition hover:shadow-2xl hover:scale-[1.02]  ">
             <div className="flex justify-center space-x-4">
             <div>
@@ -24,7 +27,7 @@ export const EventComp = ({ event }: { event: EventProp }) => {
                 </div>
                 
             </div>
-             <p className="text-md font-medium text-foreground/50">{getFirst10Words(event.description)}</p>
+             <p className="text-md font-medium text-foreground/50 my-2">{getFirst10Words(event.description)}</p>
                 <span className="inline-block px-3 py-1 bg-secondary/10 text-sm rounded-full mb-2">
                     {event.category}
                 </span>
@@ -33,6 +36,9 @@ export const EventComp = ({ event }: { event: EventProp }) => {
                     <Button className="  w-full">Yes</Button>
                     <Button className="w-full  ">No</Button>
                 </div>
-            </div>
+                </div>
+                </Link>
+            </>
+            
     );
 };
