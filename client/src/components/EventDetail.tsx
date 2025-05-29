@@ -6,6 +6,7 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { motion } from "framer-motion";
+import EventNavbar from "./EventNavbar";
 
 export const EventDetail = () => {
   const { id } = useParams();
@@ -26,8 +27,10 @@ export const EventDetail = () => {
     return <div className="text-center py-10 text-red-500">Error loading event</div>;
 
   return (
+    <>
+      <EventNavbar/>
     <motion.div
-      className="p-6 max-w-7xl mx-auto"
+      className="p-6 max-w-7xl mx-auto mt-14"
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
@@ -75,6 +78,7 @@ export const EventDetail = () => {
           </div>
         </div>
       </div>
-    </motion.div>
+      </motion.div>
+      </>
   );
 };

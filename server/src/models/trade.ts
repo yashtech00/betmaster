@@ -19,6 +19,10 @@ const TradeSchema = new Schema({
         enum: ['yes', 'no'],
         required:true
     },
+    quantity: {
+        type: Number,
+        required:true
+    },
     amount: {
         type: Number,
         required:true
