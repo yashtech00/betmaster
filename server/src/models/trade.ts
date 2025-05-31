@@ -23,7 +23,7 @@ const TradeSchema = new Schema({
         type: Number,
         required:true
     },
-    amount: {
+    price: {
         type: Number,
         required:true
     }

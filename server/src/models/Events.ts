@@ -2,46 +2,66 @@ import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 
-const EventSchema = new Schema({
+const EventSchema = new Schema(
+  {
     title: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     description: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     category: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     deadline: {
-        type: Date,
-        required: true
+      type: Date,
+      required: true,
     },
     image: {
-        type: String,
+      type: String,
     },
-    yesPool: {
-        type: Number,
-        default: 0
+    yesPoll: {
+      type: mongoose.Schema.Types.Decimal128,
+      default: 0.5,
     },
-    noPool: {
-        type: Number,
-        default: 0
+    noPrice: {
+      type: mongoose.Schema.Types.Decimal128,
+      default: 0.5,
     },
-    status: {
-        type: String,
-        enum: ['open', 'closed', 'resolved'],
-        default: 'open'
+    volume: {
+      type: mongoose.Schema.Types.Decimal128,
+      default: 0,
     },
-    result: {
-        type: String,
-        enum: ['yes', 'no', 'null'],
-        default: null
-    }
-}, { timestamps: true });
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
+   
+    orders: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Order",
+      },
+    ],
+    orderBook: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "OrderBookEntry",
+      },
+    ],
+    trades: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Trade",
+      },
+    ],
+  },
+  { timestamps: true }
+);
 
 const EventModel = mongoose.model("Event", EventSchema);
 
-export default EventModel; 
+export default EventModel;
