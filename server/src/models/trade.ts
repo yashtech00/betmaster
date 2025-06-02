@@ -26,6 +26,10 @@ const TradeSchema = new Schema({
     price: {
         type: Number,
         required:true
+    },
+    orderBookEntry: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref:"OrderBookEntry"
     }
 }, { timestamps: true });
 

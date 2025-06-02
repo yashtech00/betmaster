@@ -1,5 +1,6 @@
 import cloudinary from "../lib/Cloudinary";
 import EventModel from "../models/Events";
+import OrderBookEntryModel from "../models/OrderBookEntry";
 import TradeModel from "../models/trade";
 import WalletModel from "../models/wallets";
 
@@ -107,10 +108,10 @@ export const ResolveOutcome = async (req: any, res: any) => {
     const payouts = [];
 
     for (const bet of winners) {
-      const payoutAmount = +(bet.amount * payoutPerRupee).toFixed(2);
+      const payoutAmount = +(bet.price * payoutPerRupee).toFixed(2);
       payouts.push({
         userId: bet.userId,
-        amount: bet.amount,
+        amount: bet.price,
         payout: payoutAmount,
       });
 
@@ -209,6 +210,7 @@ export const PlaceTrade = async (req: any, res: any) => {
     wallet.balance = wallet.balance - amount;
     await wallet.save();
 
+
     return res
       .status(200)
       .json({ message: "trade successfully" }, { data: Trade });
@@ -217,3 +219,14 @@ export const PlaceTrade = async (req: any, res: any) => {
     return res.status(500).json("Internal server error while trading");
   }
 };
+
+export const OrderBookEntry = async(res:any,req:any) => {
+  try {
+    const { eventId } = req.params;
+    const OrderBookData = await OrderBookEntryModel.findById(eventId);
+
+    return res.status({})
+  } catch (e) {
+    
+  }
+}

@@ -16,11 +16,6 @@ const OrderBookEntrySchema = new Schema({
         enum: ["yes", "no"],
         required: true
     },
-    side: {
-        type: String,
-        enum: ["BUY", "SELL"],
-        required: true
-    },
     price: {
         type: mongoose.Types.Decimal128,
         required: true,

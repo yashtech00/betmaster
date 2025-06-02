@@ -23,7 +23,7 @@ const EventSchema = new Schema(
     image: {
       type: String,
     },
-    yesPoll: {
+    yesPrice: {
       type: mongoose.Schema.Types.Decimal128,
       default: 0.5,
     },
@@ -31,15 +31,21 @@ const EventSchema = new Schema(
       type: mongoose.Schema.Types.Decimal128,
       default: 0.5,
     },
-    volume: {
-      type: mongoose.Schema.Types.Decimal128,
+    yesPool: {
+      type: Number,
       default: 0,
     },
-    isActive: {
-      type: Boolean,
-      default: true,
+    noPool: {
+      type: Number,
+      default: 0,
     },
-   
+    status: {
+      type: String,
+      enum:["solved","pending",""]
+    },
+    resolve: {
+      
+    },
     orders: [
       {
         type: mongoose.Schema.Types.ObjectId,
