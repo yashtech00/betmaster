@@ -45,20 +45,9 @@ const EventSchema = new Schema(
     },
     result: {
       type: String,
-      enum:["solved"]
+      enum: ["YES", "NO", null],
+      default: null
     },
-    orders: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Order",
-      },
-    ],
-    orderBook: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "OrderBookEntry",
-      },
-    ],
     trades: [
       {
         type: mongoose.Schema.Types.ObjectId,

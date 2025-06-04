@@ -45,19 +45,11 @@ const EventSchema = new Schema({
         type: String,
         enum: ["open", "resolved", "close"]
     },
-    resolve: {},
-    orders: [
-        {
-            type: mongoose_1.default.Schema.Types.ObjectId,
-            ref: "Order",
-        },
-    ],
-    orderBook: [
-        {
-            type: mongoose_1.default.Schema.Types.ObjectId,
-            ref: "OrderBookEntry",
-        },
-    ],
+    result: {
+        type: String,
+        enum: ["YES", "NO", null],
+        default: null
+    },
     trades: [
         {
             type: mongoose_1.default.Schema.Types.ObjectId,

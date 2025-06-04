@@ -16,7 +16,7 @@ const TradeSchema = new Schema({
     },
     outcome: {
         type: String,
-        enum: ['yes', 'no'],
+        enum: ['YES', 'NO'],
         required:true
     },
     quantity: {
@@ -27,10 +27,7 @@ const TradeSchema = new Schema({
         type: Number,
         required:true
     },
-    orderBookEntry: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref:"OrderBookEntry"
-    }
+    
 }, { timestamps: true });
 
 const TradeModel = mongoose.model("Trade", TradeSchema)

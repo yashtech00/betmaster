@@ -23,24 +23,6 @@ const UserSchema = new Schema({
         enum: ["user", "admin"],
         default: "user",
     },
-    positions: [
-        {
-            type: mongoose_1.default.Schema.Types.ObjectId,
-            ref: "Position",
-        },
-    ],
-    orders: [
-        {
-            type: mongoose_1.default.Schema.Types.ObjectId,
-            ref: "Order",
-        },
-    ],
-    transactions: [
-        {
-            type: mongoose_1.default.Schema.Types.ObjectId,
-            ref: "Transaction",
-        },
-    ],
     trades: [
         {
             type: mongoose_1.default.Schema.Types.ObjectId,
