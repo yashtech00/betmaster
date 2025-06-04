@@ -106,10 +106,10 @@ const ResolveOutcome = (req, res) => __awaiter(void 0, void 0, void 0, function*
         const payoutPerRupee = totalPool / winningPool;
         const payouts = [];
         for (const bet of winners) {
-            const payoutAmount = +(bet.amount * payoutPerRupee).toFixed(2);
+            const payoutAmount = +(bet.price * payoutPerRupee).toFixed(2);
             payouts.push({
                 userId: bet.userId,
-                amount: bet.amount,
+                amount: bet.price,
                 payout: payoutAmount,
             });
             // Update wallet balance

@@ -41,10 +41,11 @@ const EventSchema = new Schema(
     },
     status: {
       type: String,
-      enum:["solved","pending",""]
+      enum:["open","resolved","close"]
     },
-    resolve: {
-      
+    result: {
+      type: String,
+      enum:["solved"]
     },
     orders: [
       {

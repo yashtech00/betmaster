@@ -10,6 +10,8 @@ import AdminRoutes from "./routes/events"
 
 
 const app = express();
+
+
 const PORT = process.env.PORT || 8001;
 connectDb();
 

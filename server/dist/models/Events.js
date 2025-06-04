@@ -8,41 +8,62 @@ const Schema = mongoose_1.default.Schema;
 const EventSchema = new Schema({
     title: {
         type: String,
-        required: true
+        required: true,
     },
     description: {
         type: String,
-        required: true
+        required: true,
     },
     category: {
         type: String,
-        required: true
+        required: true,
     },
     deadline: {
         type: Date,
-        required: true
+        required: true,
     },
     image: {
         type: String,
     },
+    yesPrice: {
+        type: mongoose_1.default.Schema.Types.Decimal128,
+        default: 0.5,
+    },
+    noPrice: {
+        type: mongoose_1.default.Schema.Types.Decimal128,
+        default: 0.5,
+    },
     yesPool: {
         type: Number,
-        default: 0
+        default: 0,
     },
     noPool: {
         type: Number,
-        default: 0
+        default: 0,
     },
     status: {
         type: String,
-        enum: ['open', 'closed', 'resolved'],
-        default: 'open'
+        enum: ["open", "resolved", "close"]
     },
-    result: {
-        type: String,
-        enum: ['yes', 'no', 'null'],
-        default: null
-    }
+    resolve: {},
+    orders: [
+        {
+            type: mongoose_1.default.Schema.Types.ObjectId,
+            ref: "Order",
+        },
+    ],
+    orderBook: [
+        {
+            type: mongoose_1.default.Schema.Types.ObjectId,
+            ref: "OrderBookEntry",
+        },
+    ],
+    trades: [
+        {
+            type: mongoose_1.default.Schema.Types.ObjectId,
+            ref: "Trade",
+        },
+    ],
 }, { timestamps: true });
 const EventModel = mongoose_1.default.model("Event", EventSchema);
 exports.default = EventModel;

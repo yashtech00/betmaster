@@ -1,6 +1,5 @@
 import cloudinary from "../lib/Cloudinary";
 import EventModel from "../models/Events";
-import OrderBookEntryModel from "../models/OrderBookEntry";
 import TradeModel from "../models/trade";
 import WalletModel from "../models/wallets";
 
@@ -220,13 +219,4 @@ export const PlaceTrade = async (req: any, res: any) => {
   }
 };
 
-export const OrderBookEntry = async(res:any,req:any) => {
-  try {
-    const { eventId } = req.params;
-    const OrderBookData = await OrderBookEntryModel.findById(eventId);
 
-    return res.status({})
-  } catch (e) {
-    
-  }
-}

@@ -12,4 +12,7 @@ router.post("/:id/resolve", Authenticate, ResolveOutcome);
 router.get("/", Authenticate, ListEvent)
 router.get("/:id", Authenticate, getEvent)
 router.get("/:id/odds", Authenticate, GetOdds);
+
+
+
 export default router;

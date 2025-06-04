@@ -7,12 +7,12 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const Schema = mongoose_1.default.Schema;
 const UserSchema = new Schema({
     fullname: {
-        type: String
+        type: String,
     },
     email: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
     },
     password: {
         type: String,
@@ -20,9 +20,33 @@ const UserSchema = new Schema({
     },
     role: {
         type: String,
-        enum: ['user', 'admin'],
-        default: 'user'
-    }
+        enum: ["user", "admin"],
+        default: "user",
+    },
+    positions: [
+        {
+            type: mongoose_1.default.Schema.Types.ObjectId,
+            ref: "Position",
+        },
+    ],
+    orders: [
+        {
+            type: mongoose_1.default.Schema.Types.ObjectId,
+            ref: "Order",
+        },
+    ],
+    transactions: [
+        {
+            type: mongoose_1.default.Schema.Types.ObjectId,
+            ref: "Transaction",
+        },
+    ],
+    trades: [
+        {
+            type: mongoose_1.default.Schema.Types.ObjectId,
+            ref: "Trade",
+        },
+    ],
 }, { timestamps: true });
 const UserModel = mongoose_1.default.model("User", UserSchema);
 exports.default = UserModel;

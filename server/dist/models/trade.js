@@ -19,9 +19,17 @@ const TradeSchema = new Schema({
         enum: ['yes', 'no'],
         required: true
     },
-    amount: {
+    quantity: {
         type: Number,
         required: true
+    },
+    price: {
+        type: Number,
+        required: true
+    },
+    orderBookEntry: {
+        type: mongoose_1.default.Schema.Types.ObjectId,
+        ref: "OrderBookEntry"
     }
 }, { timestamps: true });
 const TradeModel = mongoose_1.default.model("Trade", TradeSchema);
