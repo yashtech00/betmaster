@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import type { EventProp } from "./Events";
@@ -7,10 +7,17 @@ import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { motion } from "framer-motion";
 import EventNavbar from "./EventNavbar";
+import { useState } from "react";
 
 export const EventDetail = () => {
   const { id } = useParams();
   const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
+  const [formData, setFormData] = useState({
+    price: "0.5",
+    
+    
+  })
 
   const { data: eventDetail, isLoading, error } = useQuery<EventProp>({
     queryKey: ["eventDetail", id],
@@ -25,6 +32,22 @@ export const EventDetail = () => {
   if (isLoading) return <div className="text-center py-10">Loading...</div>;
   if (error || !eventDetail)
     return <div className="text-center py-10 text-red-500">Error loading event</div>;
+
+  const { mutate: handleTrade } = useMutation({
+    mutationKey: ["trade"],
+    mutationFn: async () => {
+     
+      try {
+        const res = await axios.post("/event/id", {}, { withCredentials: true });
+        return res.data.data;
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  })
+
+
+
 
   return (
     <>
@@ -62,19 +85,19 @@ export const EventDetail = () => {
           {/* Right: Order Form */}
           <div className="md:w-1/3 border-2 border-stone-800 rounded-2xl p-6 bg-zinc-900 space-y-4 shadow-xl">
             <h3 className="text-2xl font-semibold text-center mb-2">Place Your Order</h3>
-            <div className="flex gap-4">
-              <Button className="w-1/2" variant="default">
+            <div className="flex">
+              <Button className="w-1/2"  value={Yes}>
                 Yes
               </Button>
-              <Button className="w-1/2" variant="destructive">
+              <Button className="w-1/2"  value={No}>
                 No
               </Button>
             </div>
             <div className="space-y-2">
               <Label htmlFor="price">Enter Price</Label>
-              <Input id="price" placeholder="e.g. 100" />
+              <Input id="price" placeholder="e.g. 100" value={price} />
             </div>
-            <Button className="w-full mt-4">Place Order</Button>
+            <Button className="w-full mt-4" onClick={handleTrade}>Place Order</Button>
           </div>
         </div>
       </div>
