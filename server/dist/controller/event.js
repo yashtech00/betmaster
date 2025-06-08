@@ -163,7 +163,7 @@ const PlaceTrade = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     try {
         const { id: eventId } = req.params;
         console.log(eventId, "event id");
-        const { outcome, amount } = req.body;
+        const { outcome, price } = req.body;
         const userId = req.user._id;
         const event = yield Events_1.default.findById(eventId);
         if (!event) {
@@ -175,17 +175,17 @@ const PlaceTrade = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         console.log("userId", userId); // From req.user._id
         console.log("eventId", eventId); // From req.params
         console.log("outcome", outcome);
-        console.log("amount", amount, typeof amount);
+        console.log("amount", price, typeof price);
         const wallet = yield wallets_1.default.findOne({ userId });
         console.log("wallet-", wallet);
-        if (!wallet || wallet.balance < amount) {
+        if (!wallet || wallet.balance < price) {
             return res.status(500).json("Insufficient balance");
         }
         if (outcome == "yes") {
-            event.yesPool += amount;
+            event.yesPool += price;
         }
         else if (outcome == "no") {
-            event.noPool += amount;
+            event.noPool += price;
         }
         else {
             return res.status(400).json("Invalid outcome. Use yes or no");
@@ -195,9 +195,9 @@ const PlaceTrade = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             userId,
             eventId,
             outcome,
-            amount,
+            price,
         });
-        wallet.balance = wallet.balance - amount;
+        wallet.balance = wallet.balance - price;
         yield wallet.save();
         return res
             .status(200)

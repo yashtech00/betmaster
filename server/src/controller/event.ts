@@ -168,7 +168,7 @@ export const PlaceTrade = async (req: any, res: any) => {
     const { id: eventId } = req.params;
     console.log(eventId, "event id");
 
-    const { outcome, amount } = req.body;
+    const { outcome, price } = req.body;
     const userId = req.user._id;
     const event = await EventModel.findById(eventId);
     if (!event) {
@@ -182,19 +182,19 @@ export const PlaceTrade = async (req: any, res: any) => {
     console.log("userId", userId); // From req.user._id
     console.log("eventId", eventId); // From req.params
     console.log("outcome", outcome);
-    console.log("amount", amount, typeof amount);
+    console.log("amount", price, typeof price);
 
     const wallet = await WalletModel.findOne({ userId });
     console.log("wallet-", wallet);
 
-    if (!wallet || wallet.balance < amount) {
+    if (!wallet || wallet.balance < price) {
       return res.status(500).json("Insufficient balance");
     }
 
     if (outcome == "yes") {
-      event.yesPool += amount;
+      event.yesPool += price;
     } else if (outcome == "no") {
-      event.noPool += amount;
+      event.noPool += price;
     } else {
       return res.status(400).json("Invalid outcome. Use yes or no");
     }
@@ -203,10 +203,10 @@ export const PlaceTrade = async (req: any, res: any) => {
       userId,
       eventId,
       outcome,
-      amount,
+      price,
     });
 
-    wallet.balance = wallet.balance - amount;
+    wallet.balance = wallet.balance - price;
     await wallet.save();
 
 
