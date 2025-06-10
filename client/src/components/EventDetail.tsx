@@ -34,6 +34,20 @@ export const EventDetail = () => {
     },
   });
 
+  const { mutate: Trade } = useMutation<TradeProp, unknown, TradeProp>({
+    mutationKey: ["trade"],
+    mutationFn: async (formData) => {
+      try {
+        const res = await axios.post(`${BACKEND_URL}/event/${id}`, { formData }, { withCredentials: true });
+        console.log(res,"trade");
+        return res.data.data;
+      } catch (e) {
+        console.error(e);
+        throw new Error("error");
+      }
+    }
+  })
+
   if (isLoading) return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-secondary/20">
       <motion.div 
@@ -64,17 +78,7 @@ export const EventDetail = () => {
       </div>
     );
 
-  const { mutate: Trade } = useMutation<TradeProp, unknown, TradeProp>({
-    mutationKey: ["trade"],
-    mutationFn: async (formData) => {
-      try {
-        const res = await axios.post("/event/id", { formData }, { withCredentials: true });
-        return res.data.data;
-      } catch (e) {
-        console.error(e);
-      }
-    }
-  })
+  
 
   const handleTrade = async (e: React.FormEvent) => {
     e.preventDefault();

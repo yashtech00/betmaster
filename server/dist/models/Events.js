@@ -25,14 +25,6 @@ const EventSchema = new Schema({
     image: {
         type: String,
     },
-    yesPrice: {
-        type: mongoose_1.default.Schema.Types.Decimal128,
-        default: 0.5,
-    },
-    noPrice: {
-        type: mongoose_1.default.Schema.Types.Decimal128,
-        default: 0.5,
-    },
     yesPool: {
         type: Number,
         default: 0,
