@@ -24,6 +24,7 @@ export const EventDetail = () => {
     outcome: "",
   })
 
+
   const { data: eventDetail, isLoading, error } = useQuery<EventProp>({
     queryKey: ["eventDetail", id],
     queryFn: async () => {
@@ -32,6 +33,7 @@ export const EventDetail = () => {
       });
       return res.data.data;
     },
+    
   });
 
   const { mutate: Trade } = useMutation<TradeProp, unknown, TradeProp>({
@@ -45,6 +47,12 @@ export const EventDetail = () => {
         console.error(e);
         throw new Error("error");
       }
+    },
+    onSuccess: () => {
+      
+    },
+    onError: () => {
+      
     }
   })
 
